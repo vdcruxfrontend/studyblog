@@ -6,12 +6,14 @@ const config: Config = {
   title: "브이디크럭스 프론트팀 스터디 블로그",
   tagline: "브이디크럭스 프론트 스터디 블로그입니다.",
   favicon: "img/favicon.ico",
-  url: "https://your-docusaurus-site.example.com",
+  url: "https://vdcruxfrontend.github.io",
   baseUrl: "/",
-  organizationName: "vdcrux",
-  projectName: "cruxStudy",
+  deploymentBranch: "gh-pages",
+  organizationName: "vdcruxfrontend",
+  projectName: "vdcruxfrontend.github.io",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
+  trailingSlash: false,
   i18n: {
     defaultLocale: "en",
     locales: ["en"]
