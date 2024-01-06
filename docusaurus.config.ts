@@ -13,7 +13,6 @@ const config: Config = {
   projectName: "studyblog",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  trailingSlash: false,
   i18n: {
     defaultLocale: "en",
     locales: ["en"]
