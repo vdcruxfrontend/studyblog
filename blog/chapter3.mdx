@@ -1,0 +1,65 @@
+---
+slug: 03-advanced-types
+title: 3장. 고급 타입
+authors: [hotbreakb]
+tags: [unknown, enum, literal types]
+---
+
+### unknown
+
+**🔍 내용 (85쪽)**
+
+- any 타입과 유사하지만 타입 검사를 강제하고 타입이 식별된 후에 사용될 수 있기 때문에 any 타입보다 더 안전하다.
+
+**🎉 결과**
+
+- `any`보단 `unknown`을 사용하여 에러를 줄이자.
+
+### enum
+
+**🔍 내용 (98쪽)**
+
+- 열거형은 타입스크립트 코드가 자바스크립트로 변환될 때 즉시 실행 함수(IIFE) 형식으로 변환되는 것을 볼 수 있다.
+- 이때 일부 번들러에서 트리쉐이킹 과정 중 즉시 실행 함수로 변환된 값을 사용하지 않는 코드로 인식하지 못하는 경우가 발생할 수 있다. 따라서 불필요한 코드의 크기가 증가하는 결과를 초래할 수 있다. 이러한 문제를 해결하기 위해 앞서 언급했던 `const enum` 또는 `as const` assertion을 사용해서 유니온 타입으로 열거형과 동일한 효과를 얻는 방법이 있다.
+- (enum 내에서 숫자로 값이 자동 추론된다는 내용 추가)
+
+**🎉 결과**
+
+- 트리쉐이킹 과정 중 문제가 발생할 수 있는데, 이것이 성능에 막대한 영향을 미치진 않을 것이다.
+- `enum` 내에는 `string`만 넣는 것으로 한다.
+- `enum`을 사용하여 `react-query` key를 관리해보자. `string` 오탈자 입력을 방지하고 중복 키를 생성하는 문제를 해결할 수 있을 것이다.
+
+### 템플릿 리터럴 타입(Template Literal Types)
+
+**🔍 내용 (105쪽)**
+
+```
+type Stage =
+	| "init"
+	| "select-image"
+	| "edit-image";
+
+type StageName = `${Stage}-stage`;
+```
+
+**🎉 결과**
+
+- `redux` action을 만들거나 `css` class name을 만들 때 유용하게 사용된다.
+
+```tsx
+type Action = "increment" | "decrement";
+type ActionType = `${Action}_ACTION`;
+```
+
+```tsx
+type ButtonType = "primary" | "secondary" | "danger";
+type ButtonClass = `btn-${ButtonType}`;
+```
+
+### 기타
+
+- `never`를 사용하여 타입이 반환되지 않는 경우를 분명히 나타내자.
+- 여러 명이 하나의 파일을 동시에 수정할 것을 고려하여 함수명이 바뀔 때는 [`@deprecated`](https://jsdoc.app/tags-deprecated)로 표기하고 파일을 지우지 말자.
+- `extends`는 확장의 개념도 있지만, 추론한다는 뜻을 가지고 있다. 따라서 `T extends true`는 `참이라면`이라는 뜻이 있다.
+- 작은 타입을 [Union Type](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#union-types)이나 [Intersection Type](https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#intersection-types)으로 묶어서 사용하자. `Pick`이나 `Omit`을 쓰면 어떤 값이 들어가고 나가는지 머릿속으로 계산해야 하기 때문에 가독성이 떨어진다.
+- `?` 연산자로 타입을 만드는 대신 [`Partial`](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype)을 쓰자.

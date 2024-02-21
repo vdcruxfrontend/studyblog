@@ -1,11 +1,12 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from "@docusaurus/types";
+import { themes as prismThemes } from "prism-react-renderer";
+
 const organizationName = "vdcruxfrontend";
 const projectName = "studyblog";
+
 const config: Config = {
-  title: "브이디크럭스 프론트팀 스터디 블로그",
-  tagline: "브이디크럭스 프론트 스터디 블로그입니다.",
+  title: "스터디 블로그",
   favicon: "img/favicon.ico",
   url: `https://${organizationName}.github.io`,
   baseUrl: `/${projectName}/`,
@@ -16,17 +17,13 @@ const config: Config = {
   onBrokenMarkdownLinks: "warn",
   trailingSlash: false,
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"]
+    defaultLocale: "ko",
+    locales: ["ko"]
   },
   presets: [
     [
       "classic",
       {
-        docs: {
-          sidebarPath: "./sidebars.ts",
-          editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`
-        },
         blog: {
           showReadingTime: true,
           editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`
@@ -41,18 +38,8 @@ const config: Config = {
   themeConfig: {
     image: "img/docusaurus-social-card.jpg",
     navbar: {
-      title: "My Site",
-      logo: {
-        alt: "My Site Logo",
-        src: "img/logo.svg"
-      },
+      title: "VDCrux 프론트팀 스터디 블로그",
       items: [
-        {
-          type: "docSidebar",
-          sidebarId: "tutorialSidebar",
-          position: "left",
-          label: "Tutorial"
-        },
         { to: "/blog", label: "Blog", position: "left" },
         {
           href: `https://github.com/${organizationName}/${projectName}/`,
