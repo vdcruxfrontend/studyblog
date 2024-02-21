@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"3\uc7a5. \uace0\uae09 \ud0c0\uc785","permalink":"/studyblog/blog/03-advanced-types","unlisted":false}]}')}}]);

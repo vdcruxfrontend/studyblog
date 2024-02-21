@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[6682],{6023:s=>{s.exports=JSON.parse('{"label":"literal types","permalink":"/studyblog/blog/tags/literal-types","allTagsPath":"/studyblog/blog/tags","count":1,"unlisted":false}')}}]);
