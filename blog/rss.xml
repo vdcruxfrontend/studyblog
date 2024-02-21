@@ -4,10 +4,59 @@
         <title>스터디 블로그 Blog</title>
         <link>https://vdcruxfrontend.github.io/studyblog/blog</link>
         <description>스터디 블로그 Blog</description>
-        <lastBuildDate>Mon, 08 Jan 2024 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 21 Feb 2024 07:46:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ko</language>
+        <item>
+            <title><![CDATA[3장. 고급 타입]]></title>
+            <link>https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types</link>
+            <guid>https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types</guid>
+            <pubDate>Wed, 21 Feb 2024 07:46:52 GMT</pubDate>
+            <description><![CDATA[unknown]]></description>
+            <content:encoded><![CDATA[<h3 class="anchor anchorWithStickyNavbar_LWe7" id="unknown">unknown<a href="https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types#unknown" class="hash-link" aria-label="unknown에 대한 직접 링크" title="unknown에 대한 직접 링크">​</a></h3>
+<p><strong>🔍 내용 (85쪽)</strong></p>
+<ul>
+<li>any 타입과 유사하지만 타입 검사를 강제하고 타입이 식별된 후에 사용될 수 있기 때문에 any 타입보다 더 안전하다.</li>
+</ul>
+<p><strong>🎉 결과</strong></p>
+<ul>
+<li><code>any</code>보단 <code>unknown</code>을 사용하여 에러를 줄이자.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="enum">enum<a href="https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types#enum" class="hash-link" aria-label="enum에 대한 직접 링크" title="enum에 대한 직접 링크">​</a></h3>
+<p><strong>🔍 내용 (98쪽)</strong></p>
+<ul>
+<li>열거형은 타입스크립트 코드가 자바스크립트로 변환될 때 즉시 실행 함수(IIFE) 형식으로 변환되는 것을 볼 수 있다.</li>
+<li>이때 일부 번들러에서 트리쉐이킹 과정 중 즉시 실행 함수로 변환된 값을 사용하지 않는 코드로 인식하지 못하는 경우가 발생할 수 있다. 따라서 불필요한 코드의 크기가 증가하는 결과를 초래할 수 있다. 이러한 문제를 해결하기 위해 앞서 언급했던 <code>const enum</code> 또는 <code>as const</code> assertion을 사용해서 유니온 타입으로 열거형과 동일한 효과를 얻는 방법이 있다.</li>
+<li>(enum 내에서 숫자로 값이 자동 추론된다는 내용 추가)</li>
+</ul>
+<p><strong>🎉 결과</strong></p>
+<ul>
+<li>트리쉐이킹 과정 중 문제가 발생할 수 있는데, 이것이 성능에 막대한 영향을 미치진 않을 것이다.</li>
+<li><code>enum</code> 내에는 <code>string</code>만 넣는 것으로 한다.</li>
+<li><code>enum</code>을 사용하여 <code>react-query</code> key를 관리해보자. <code>string</code> 오탈자 입력을 방지하고 중복 키를 생성하는 문제를 해결할 수 있을 것이다.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="템플릿-리터럴-타입template-literal-types">템플릿 리터럴 타입(Template Literal Types)<a href="https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types#%ED%85%9C%ED%94%8C%EB%A6%BF-%EB%A6%AC%ED%84%B0%EB%9F%B4-%ED%83%80%EC%9E%85template-literal-types" class="hash-link" aria-label="템플릿 리터럴 타입(Template Literal Types)에 대한 직접 링크" title="템플릿 리터럴 타입(Template Literal Types)에 대한 직접 링크">​</a></h3>
+<p><strong>🔍 내용 (105쪽)</strong></p>
+<div class="codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">type Stage =</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">	| "init"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">	| "select-image"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">	| "edit-image";</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">type StageName = `${Stage}-stage`;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p><strong>🎉 결과</strong></p>
+<ul>
+<li><code>redux</code> action을 만들거나 <code>css</code> class name을 만들 때 유용하게 사용된다.</li>
+</ul>
+<div class="language-tsx codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-tsx codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">type</span><span class="token plain"> </span><span class="token class-name">Action</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"increment"</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">|</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"decrement"</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">type</span><span class="token plain"> </span><span class="token class-name">ActionType</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">${</span><span class="token template-string interpolation">Action</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">}</span><span class="token template-string string" style="color:#e3116c">_ACTION</span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<div class="language-tsx codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-tsx codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">type</span><span class="token plain"> </span><span class="token class-name">ButtonType</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"primary"</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">|</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"secondary"</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">|</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"danger"</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">type</span><span class="token plain"> </span><span class="token class-name">ButtonClass</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token template-string string" style="color:#e3116c">btn-</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">${</span><span class="token template-string interpolation">ButtonType</span><span class="token template-string interpolation interpolation-punctuation punctuation" style="color:#393A34">}</span><span class="token template-string template-punctuation string" style="color:#e3116c">`</span><span class="token punctuation" style="color:#393A34">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="클립보드에 코드 복사" title="복사" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="기타">기타<a href="https://vdcruxfrontend.github.io/studyblog/blog/03-advanced-types#%EA%B8%B0%ED%83%80" class="hash-link" aria-label="기타에 대한 직접 링크" title="기타에 대한 직접 링크">​</a></h3>
+<ul>
+<li><code>never</code>를 사용하여 타입이 반환되지 않는 경우를 분명히 나타내자.</li>
+<li>여러 명이 하나의 파일을 동시에 수정할 것을 고려하여 함수명이 바뀔 때는 <a href="https://jsdoc.app/tags-deprecated" target="_blank" rel="noopener noreferrer"><code>@deprecated</code></a>로 표기하고 파일을 지우지 말자.</li>
+<li><code>extends</code>는 확장의 개념도 있지만, 추론한다는 뜻을 가지고 있다. 따라서 <code>T extends true</code>는 <code>참이라면</code>이라는 뜻이 있다.</li>
+<li>작은 타입을 <a href="https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#union-types" target="_blank" rel="noopener noreferrer">Union Type</a>이나 <a href="https://www.typescriptlang.org/docs/handbook/unions-and-intersections.html#intersection-types" target="_blank" rel="noopener noreferrer">Intersection Type</a>으로 묶어서 사용하자. <code>Pick</code>이나 <code>Omit</code>을 쓰면 어떤 값이 들어가고 나가는지 머릿속으로 계산해야 하기 때문에 가독성이 떨어진다.</li>
+<li><code>?</code> 연산자로 타입을 만드는 대신 <a href="https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype" target="_blank" rel="noopener noreferrer"><code>Partial</code></a>을 쓰자.</li>
+</ul>]]></content:encoded>
+            <category>unknown</category>
+            <category>enum</category>
+            <category>literal types</category>
+        </item>
         <item>
             <title><![CDATA[테스트로 써보기]]></title>
             <link>https://vdcruxfrontend.github.io/studyblog/blog/test</link>
