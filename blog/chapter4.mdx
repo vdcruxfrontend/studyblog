@@ -1,0 +1,323 @@
+---
+slug: 04-type-extends-guard
+title: 4장. 타입 확장하기, 좁히기
+authors: [hyunsu]
+tags: [extends, guard]
+---
+
+> 타입 확장의 장점과 더불어 extends, 교차 타입, 유니온 타입간의 차이를 파악하고 언제 사용하면 좋을지 살펴보자.  
+> 본문 p.120
+
+## 타입 확장하기
+
+### 타입 확장의 장점
+
+- 코드 중복을 줄일 수 있다.
+  - DRY(Don't Repeat Yourself)는 타입에서도 적용된다.
+- 명시적인 코드를 작성할 수 있다.(어디에서 확장 되었다는 것을 쉽게 확인 가능하다.)
+- 코드 작성 단계에서 예기치 못한 버그도 예방 가능하다.
+
+- 예시
+
+  - interface에서 확장
+
+    ```ts
+    interface Table {
+      id: number;
+      name: string;
+      coordinate: string;
+      dimension: string;
+    }
+
+    interface ModifyTable extends Table {
+      color?: string;
+    }
+    ```
+
+  - type에서 확장의
+
+    ```ts
+    type Table = {
+      id: number;
+      name: string;
+      coordinate: string;
+      dimension: string;
+    };
+
+    type ModifyTable = {
+      color?: string;
+    } & Table;
+    ```
+
+- 타입 확장은 확장성이라는 장점을 가진다.
+
+  - 여러 타입으로 확장 가능
+
+    ```ts
+    interface Table {
+      id: number;
+      name: string;
+      coordinate: string;
+      dimension: string;
+    }
+
+    interface ModifyTable extends Table {
+      color?: string;
+    }
+
+    interface CheckConnectTable extends Table {
+      connect?: boolean;
+      occupy?: boolean;
+    }
+    ```
+
+## 유니온 타입 (Union Type)
+
+> 유니온 타입은 2개 이상의 타입을 조합하여 사용하는 방법이다. 집합의 관점으로 보면 유니온 타입을 합집합으로 해석할 수 있다.  
+> p.122
+
+```ts
+type Union = A | B;
+```
+
+유니온 타입으로 선언된 값은 유니온 타입에 포함된 모든 타입이 공통으로 갖고있는 속성에만 접근할 수 있다.
+
+[예제](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgBIFcC2cTIN4BQyywAJgFzIDOYUoA5gNxHIhyYTk10hMtz1OrLACNozAL4FQkWIhQZsIAPZl8LMpW4NmxNhy60dLBFAhxIpAIJgtR3pIIEY6EAjDBluQWCuCAFMoiAFYQ7pSKOMgAPmhYOKqkAJSExGZg6FC4QaHuAHQCEJJAA)
+
+```ts
+interface Human {
+  name: string;
+  age: number;
+}
+
+interface Humanoid {
+  id: string;
+  createdAt: string;
+}
+
+function getAge(object: Human | Humanoid) {
+  return object.age;
+  // Property 'age' does not exist on type 'Human | Humanoid'.
+  // Property 'age' does not exist on type 'Humanoid'.
+}
+```
+
+## 교차 타입(Intersection Type)
+
+> 교차 타입은 교집합의 개념과 비슷하다.  
+> p.124
+
+```ts
+type Intersection = A & B;
+```
+
+[예제](https://www.typescriptlang.org/play?#code/JYOwLgpgTgZghgYwgAgBIFcC2cTIN4BQyywAJgFzIDOYUoA5gNxHIhyYSU10hMtz1OrLACNozAL4ECoSLEQoM2EAHsy+FmS60GzYmw7aefYgigQ4kUgEEwR3QSkEwATwAOKAHIQA7gHUVKAAbUgAFCBU3IJQAXjQsHGQAMnjlNVJmAhh0EAQwYBVcQTBrQQAKFREAKwg8ym9-QJDwyOiASg1iczB0KFxKmryAOgEISSA)
+
+```ts
+interface Human {
+  name: string;
+  age: number;
+}
+
+interface Humanoid {
+  id: string;
+  createdAt: string;
+}
+
+type NewWorldPeople = Human & Humanoid;
+
+function getAge(object: NewWorldPeople) {
+  return object.age;
+}
+```
+
+### 💡궁금하다 궁금해!
+
+책의 본문에는 유니온 타입과 교차 타입에 대해서 이렇게 설명하고 있다.
+
+> 타입스크립트의 타입을 속성의 집합이 아니라 값의 집합이라고 생각해야 유니온 타입이 합집합이라는 개념을 이해할 수 있다.  
+> p.123
+
+책에서는 속성이 아닌 값의 집합이라고 생각해야한다고 강조한다.(두 번) 하지만 어쨌든 직관적으로 동작하고 있는 모습은 Union 타입은 교집합처럼 동작하고 Intersection 타입은 합집합 처럼 느껴진다.
+위에서 들었던 예제들을 보면 합집합이라니까 당연스레 object에 age가 있을 것으로 생각된다. 하지만 그렇지 않다. 도대체 왜이러는 걸까?
+
+stackOverflow에 나와 똑같은 생각을 해서 질문을 올린 사람이 있는데 정말 여러 답변들이 달렸고 내가 제일 도움이 됐던 답변의 링크를 첨부한다.
+
+- [Naming of TypeScript union and intersection types - Kai Roesner answered](https://stackoverflow.com/a/61733065)
+
+이 분의 답변은 책에 적혀있는 속성의 집합이 아닌 값의 집합이라고 생각해야한다는 것의 의미를 잘 설명해주고 있다.
+위의 Human과 Humanoid를 속성이 아닌 값으로 생각했을 때 Union과 Intersection을 설명할 수 있다.
+
+- Union : Human의 값도 되고 Humanoid의 값도 된다. 그리고 Human과 Humanoid가 합쳐진 NewWorldPeople의 값도 된다.
+- Intersection : 오직 NewWorldPeople만 된다.
+
+[답변의 예시](https://www.typescriptlang.org/play?#code/C4TwDgpgBAglC8UDeAoKUAeAuKA7ArgLYBGEATmlCDgSeSgL4oqiRQBCCyl1eRpFdAC8a-ekxbhoASS5wAZB0lsAqnKgAfJSgA2EYFACWOabv1R8OFc0NckmHAEYANFRwAmKAwDc6P-4B6AKgAHgBaKHIyAHsKW0R7XndXESgAZi9ff0Dg8MiyGLi7BygXNyhkqFSMn2Z8YuxS1yTMlHqE8srq1vbkErKklJwa7xQgA)중 하나를 인용하고자한다.
+
+```ts
+type A = {
+  x: number;
+  y: number;
+};
+
+type B = {
+  y: number;
+  z: number;
+};
+
+type I = A & B;
+type U = A | B;
+
+let i: I;
+let u: U;
+
+i = { x: 1, y: 2 }; // <- error
+i = { y: 2, z: 3 }; // <- error
+i = { x: 1, y: 2, z: 3 };
+
+u = { x: 1, y: 2 };
+u = { y: 2, z: 3 };
+u = { x: 1, y: 2, z: 3 };
+```
+
+## 타입 좁히기 - 타입가드
+
+타입 가드는 크게 자바스크립트 연산자를 사용한 타입 가드와 사용자 정의 타입 가드로 구분할 수 있다.
+
+1. 원시 타입을 추론할 때 : typeof 연산자 활용하기
+2. 인스턴스화된 객체 타입을 판별할 때 : instanceof 연산자 활용하기
+3. 객체의 속성이 있는지 없는지에 따른 구분 : in 연산자 활용하기
+4. is 연산자로 사용자 정의 타입 가드 만들어 활용하기
+
+자세한 내용은 책을 참조하기.
+
+## 타입 좁히기 - 식별할 수 있는 유니온
+
+> 종종 태그된 유니온으로도 불리우는 식별할 수 있는 유니온은 타입 좁히기에 널리 사용되는 방식이다.  
+> p.139
+
+이 예시는 본문의 예시를 그대로 인용한다. 왜냐하면 우리 코드에도 이와 같은 에러 처리 방식이 똑같이 적용 될 수 있기 때문이다.
+
+```ts
+type TextError = {
+  errorCode: string;
+  errorMessage: string;
+};
+type ToastError = {
+  errorCode: string;
+  errorMessage: string;
+  toastShowDuration: number;
+};
+type AlertError = {
+  errorCode: string;
+  errorMessage: string;
+  onConfirm: () => void;
+};
+
+type ErrorFeedbackType = TextError | ToastError | AlertError;
+const errorArr: ErrorFeedbackType[] = [
+  { errorCode: "100", errorMessage: "텍스트 에러" },
+  { errorCode: "200", errorMessage: "토스트 에러", toastShowDuration: 3000 },
+  { errorCode: "300", errorMessage: "얼럿 에러", onConfirm: () => {} },
+  {
+    errorCode: "999",
+    errorMessage: "잘못된 에러",
+    onConfirm: () => {},
+    toastShowDuration: 3000
+  } // expect error
+];
+```
+
+타입을 이렇게 거창하게 작성한 이유는 아마도 errorCode 999를 가지는 저 객체에 대해서 에러를 기대했기 때문일 것이다.
+그러나 이런 상황에서 자바스크립트는 덕 타이핑 언어이기 떄문에 별도의 타입 에러를 뱉지 않는다.
+
+### 식별할 수 있는 유니온
+
+> 각 타입이 비슷한 구조를 가지지만 서로 호환되지 않도록 만들어 주기 위해서는 서로 포함 관계를 가지지 않도록 정의해야한다.  
+> 식별할 수 있는 유니온이란 타입 간의 구조 호환을 막기 위해 타입마다 구분할 수 있는 판별자를 달아주어 관계를 제거하는 것이다.
+
+[예제](https://www.typescriptlang.org/play?ssl=32&ssc=3&pln=7&pc=1#code/C4TwDgpgBAKhAewCiAnFB7FUC8UDeAUFFBGpjOBAFxQBEMSAGjLQNxElkoDC6AJtSgBnYCgCWAOwDm7YqQwoAshCFCAhlMEjx09gF92oSLHRqRqBTnwd55SjXoB5AIIBlFrM4LeAmtskyNlzKqhpaogGewKYirgAW6ADuACIArihqwGLoEjQSqQC2AEak+oaUUM4ANqTIXFaEclwUkA7OADJIAEoeQd784TqBTQoh6pp+EbocObwSAGZiKAU0ABQAlDgAfFAAbuhifGUEBEbQFpgAYhAQfEVqAMYA1i3QuHCIF1gAPiZmdZZftVal92AQHjkRF5MM40DQvtdbvdnq8ANoAXSsqI4eFsKFeVHoTBYABpoTwBg4AIwABhptDJeLGYQcgFlFwAlQ4AOpaggAXRwA37bQoHoSTi8QSnG5SeSfIJaAAmOkM8nMiZ0QAFi1zeQKydF-vEkmkMlkcjQAMx0mlCkXEXHNey0DrdKV4mUOc30xnBFTjWWAHtHAP-tWqVsxyi2Wa022B2eD0VpxHBGdlaROYDIT0spdAAnDm08RE0pvSy6IAM8cA3V2AHBag9b8yGFksVlANtt8ML07rYgkUulMtlclB3TSOLGAPQjkjwSAPYDkgjo1hAA)
+
+```ts
+type TextError = {
+  errorType: "TEXT";
+  errorCode: string;
+  errorMessage: string;
+};
+type ToastError = {
+  errorType: "TOAST";
+  errorCode: string;
+  errorMessage: string;
+  toastShowDuration: number;
+};
+type AlertError = {
+  errorType: "ALERT";
+  errorCode: string;
+  errorMessage: string;
+  onConfirm: () => void;
+};
+```
+
+이렇게 수정하면 errorArr에 errorType이 포함되게 되고 자바스크립트는 errorCode 999를 보고 에러를 넘겨준다.
+
+```ts
+  // (생략)
+  {
+    type:"TEXT",
+    errorCode: "999",
+    errorMessage: "잘못된 에러",
+    onConfirm: () => {},
+    toastShowDuration: 3000
+  }
+];
+
+// Object literal may only specify known properties, and 'onConfirm' does not exist in type 'TextError'.
+```
+
+### 판별자 선정
+
+- 리터럴 타입이어야한다.
+- 인스턴스화할 수 있는 타입은 포함되지 않아야한다.
+
+## Exhaustiveness Checking
+
+never 활용에 흔치 않은 예제라 정리해봤다.
+
+> 모든 타입에 대한 타입 검사를 강제하고 싶다면 다음과 같이 코드를 작성하면 된다.  
+> p.146-147
+
+[예제](https://www.typescriptlang.org/play?#code/C4TwDgpgBACgTgewCYFcDGx4Es3QLxQBEAjAAzmmFQA+RATBZTUQKwWEDcAUF2ggHYBnYFADmETIlQYAcgEMAtvigAKMFPSScEAFywNGbLgCUe4XCz9RUPAD4oAby5QoWAGar1yTUfx4CJIyExlBwEihw-ESADD2AP92AgwOAESuAMbVQxIAznVCAC2Oczq4eagZauDb+9EEhYcARUYRxSal0mTncLgD0bfmF3oYWJf4BbOTBoeGRMQkpUCyAOTPZhHkQADaC0E4uLhAAHgAWcijCWABuEADCOxBoANbd0sUQxq0bVTUTDbkuAL5cn9y8AsIoNs9gdgMczhdrjZPHI4Io9PwICc4CE7I48sAdogAO5QRG4gCicEQcBUhFAkCBxIQcAAhMFuL8gA)
+
+```ts
+type ProductPrice = "10000" | "20000" | "5000";
+
+const getProductName = (productPrice: ProductPrice): string => {
+  if (productPrice === "10000") return "배민상품권 1만 원";
+  if (productPrice === "20000") return "배민상품권 2만 원";
+  // if(productPrice === "5000") return "배민상품권 5천 원"
+  else {
+    exhaustiveCheck(productPrice);
+    // Argument of type 'string' is not assignable to parameter of type 'never'.
+    // 'param' is declared but its value is never read.
+    return "배민상품권";
+  }
+};
+
+const exhaustiveCheck = (param: never) => {
+  throw new Error("type error!");
+};
+```
+
+## 마무리
+
+타입을 집합으로써의 개념으로 설명하는 것이 사실 이해가 잘 안됐었다. 하지만 '속성'이 아닌 '값'이라는 개념과 그것을 실마리 삼아
+나름대로 이해를 할 수 있었다. 합집합과 교집합은 값으로써의 합집합과 교집합의 개념이다. 첨부한 stackoverflow의 링크에
+자기 스스로 이해가 잘 되는 답변을 채택해서 다른 사람에게 설명할 수 있으면 될 것 같다.
+
+타입 좁히기는 instanceof나 if문으로 값이 있는지 없는지 체크해서 막는 것이었는데 typeof나 in, is와 같은 자바스크립트 연산자를 활용한
+타입 가드가 있다는 사실을 새롭게 배우게 되었다.
+식별할 수 있는 유니온은 이펙티브 타입스크립트에서 봤던 개념이지만 실무에서 전혀 사용을 못하고 있었는데, Error 예제를 보니
+어쩌면 우리 회사의 코드에 적용해 볼 수 있을 것 같다는 생각이 들었다.
+
+마지막으로 never는 별로 실용적이거나 활용할 일이 없다고 생각했는데 챕터 마지막에 소개된 exhaustiveCheck를 never를
+활용하기도 하는구나 하는 생각이 들었다. 예전에 Toast UI blog에서 [타입스크립트의 Never 타입 완벽 가이드](https://ui.toast.com/posts/ko_20220323)라는 글을 읽었던 적이 있는데,
+사실 이게 뭐지? 라는 생각이 들었지만 이번에 실용적인 쓰임세를 알게되었다. 책을 다 읽었을 때 실무적으로 조금 더 완전하게 타입스크립트를 사용할 수 있을 것 같은 기대감이 생겼다.
