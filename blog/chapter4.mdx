@@ -34,7 +34,7 @@ tags: [extends, guard]
     }
     ```
 
-  - type에서 확장의
+  - type을 활용한 확장
 
     ```ts
     type Table = {
@@ -146,7 +146,7 @@ stackOverflow에 나와 똑같은 생각을 해서 질문을 올린 사람이 �
 - [Naming of TypeScript union and intersection types - Kai Roesner answered](https://stackoverflow.com/a/61733065)
 
 이 분의 답변은 책에 적혀있는 속성의 집합이 아닌 값의 집합이라고 생각해야한다는 것의 의미를 잘 설명해주고 있다.
-위의 Human과 Humanoid를 속성이 아닌 값으로 생각했을 때 Union과 Intersection을 설명할 수 있다.
+위의 Human과 Humanoid를 속성이 아닌 값의 관점에서 Union과 Intersection을 설명할 수 있다.
 
 - Union : Human의 값도 되고 Humanoid의 값도 된다. 그리고 Human과 Humanoid가 합쳐진 NewWorldPeople의 값도 된다.
 - Intersection : 오직 NewWorldPeople만 된다.
@@ -228,7 +228,7 @@ const errorArr: ErrorFeedbackType[] = [
 ```
 
 타입을 이렇게 거창하게 작성한 이유는 아마도 errorCode 999를 가지는 저 객체에 대해서 에러를 기대했기 때문일 것이다.
-그러나 이런 상황에서 자바스크립트는 덕 타이핑 언어이기 떄문에 별도의 타입 에러를 뱉지 않는다.
+그러나 이런 상황에서 자바스크립트는 덕 타이핑 언어이기 때문에 별도의 타입 에러를 뱉지 않는다.
 
 ### 식별할 수 있는 유니온
 
@@ -257,7 +257,7 @@ type AlertError = {
 };
 ```
 
-이렇게 수정하면 errorArr에 errorType이 포함되게 되고 자바스크립트는 errorCode 999를 보고 에러를 넘겨준다.
+이렇게 수정하면 errorArr에 errorType이 포함되어 자바스크립트가 errorCode 999를 가진 객체에 대해 에러를 반환한다.
 
 ```ts
   // (생략)
@@ -315,8 +315,7 @@ const exhaustiveCheck = (param: never) => {
 
 타입 좁히기는 instanceof나 if문으로 값이 있는지 없는지 체크해서 막는 것이었는데 typeof나 in, is와 같은 자바스크립트 연산자를 활용한
 타입 가드가 있다는 사실을 새롭게 배우게 되었다.
-식별할 수 있는 유니온은 이펙티브 타입스크립트에서 봤던 개념이지만 실무에서 전혀 사용을 못하고 있었는데, Error 예제를 보니
-어쩌면 우리 회사의 코드에 적용해 볼 수 있을 것 같다는 생각이 들었다.
+식별할 수 있는 유니온은 '이펙티브 타입스크립트'에서 본 개념이지만 실무에선 활용하지 못했었습니다. 그러나 Error 예제를 보고 나니 회사의 코드에 적용해 볼 수 있을 것 같다는 생각이 들었다.
 
 마지막으로 never는 별로 실용적이거나 활용할 일이 없다고 생각했는데 챕터 마지막에 소개된 exhaustiveCheck를 never를
 활용하기도 하는구나 하는 생각이 들었다. 예전에 Toast UI blog에서 [타입스크립트의 Never 타입 완벽 가이드](https://ui.toast.com/posts/ko_20220323)라는 글을 읽었던 적이 있는데,
