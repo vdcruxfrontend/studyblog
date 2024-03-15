@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[88],{9850:s=>{s.exports=JSON.parse('{"label":"ReturnType","permalink":"/studyblog/blog/tags/return-type","allTagsPath":"/studyblog/blog/tags","count":1,"unlisted":false}')}}]);

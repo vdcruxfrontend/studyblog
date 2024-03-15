@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[6740],{3241:s=>{s.exports=JSON.parse('{"label":"infer","permalink":"/studyblog/blog/tags/infer","allTagsPath":"/studyblog/blog/tags","count":1,"unlisted":false}')}}]);
