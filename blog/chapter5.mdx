@@ -1,0 +1,128 @@
+---
+slug: 05-makeing-good-use-of-types
+title: 5장. 타입 활용하기
+authors: [hotbreakb]
+tags: [extends, infer, NonNullable, ReturnType, Record]
+---
+
+### extends와 제너릭을 활용한 조건부 타입
+
+**🔍 내용 (151쪽)**
+
+- `PayMethod` 타입은 제너릭 타입으로 `extends`를 사용한 조건부 타입이다.
+
+```ts
+type PayMethod<T> = T extends "card" ? Card : Bank;
+```
+
+**🎉 이렇게 개선하면 어떨까요?**
+
+```ts
+// 전
+export type PointInfo = {
+  saleAmount: number;
+  saleProducts: string;
+  saleType: SaleType;
+  savePoint: number;
+  saveStamp: number;
+  type: string;
+  usePoint: number;
+  useStamp: number;
+  visitedAt: string;
+};
+
+// 후
+type SaleType = "point" | "stamp";
+
+type BasePointInfo<T extends SaleType> = {
+  saleAmount: number;
+  saleProducts: string;
+  saleType: T;
+  visitedAt: string;
+};
+
+type PointInfoExtended<T extends SaleType> = BasePointInfo<T> & {
+  type: T;
+  savePoint: T extends "point" ? number : 0;
+  usePoint: T extends "point" ? number : 0;
+  saveStamp: T extends "stamp" ? number : 0;
+  useStamp: T extends "stamp" ? number : 0;
+};
+
+// point 타입의 예시
+const pointInfo: PointInfoExtended<"point"> = {
+  saleAmount: 100,
+  saleProducts: "Product A",
+  saleType: "point",
+  savePoint: 10,
+  usePoint: 20,
+  saveStamp: 0,
+  useStamp: 0,
+  type: "point",
+  visitedAt: "2024-03-14",
+};
+```
+
+### infer를 활용해서 타입 추론하기
+
+**🔍 내용 (156쪽)**
+
+- `extends`를 사용할 때 `infer` 키워드를 사용할 수 있다. `infer`는 '추론하다'라는 의미를 지니고 있는데 타입스크립트에서도 단어 의미처럼 타입을 추론하는 역할을 한다.
+
+**🎉 예시**
+
+```ts
+type ReturnType<T extends (...args: any) => any> = T extends (
+  ...args: any
+) => infer R
+  ? R
+  : any;
+```
+
+    함수 리턴 타입이 있어? 있으면 그거, 없으면 `any`
+
+**🔍 내용 (159쪽)**
+
+- `menuList`에서 `subMenus`가 없는 `MainMenu`의 `name`과 `subMenus`에서 쓰이는 `name`, `route name`에 동일한 문자열만 입력해야 한다는 제약이 존재한다.
+  - 코드로 작성해보았을 때 아무 문제가 안 생기는데, 여기서 어떤 제약이 있다고 하는 걸까요?
+
+### PickOne 커스텀 유틸리티 타입 구현하기
+
+**🔍 내용 (168쪽)**
+
+- 옵셔널 + `undefined`로 타입을 지정하면 사용자가 의도적으로 `undefined` 값을 넣지 않는 이상, 원치 않는 속성에 값을 넣었을 때 타입 에러가 발생할 것이다.
+
+```ts
+{ account: string; card?: undefined} | { account?: undefined; card: string}
+```
+
+### Promise.all을 사용할 때 NonNullable 적용하기
+
+**🔍 내용 (172쪽)**
+
+- `Array<AdCampaign[] | null>`로 추론된다. `NonNullable`을 사용해서 필터링하면 `Array<AdCampaign[]>`로 추론할 수 있게 된다.
+
+### 무한한 키를 집합으로 가지는 Record
+
+**🔍 내용 (179쪽)**
+
+```ts
+type Category = string;
+const foodByCategory: Record<Category, Food[]> = {
+  한식: [{ name: "제육덮밥" }, { name: "콩나물국밥" }],
+  일식: [{ name: "회", name: "텐동" }],
+};
+
+foodByCategory["양식"].map((food) => food.name); // 런타임에서 undefined가 되어 오류 반환
+```
+
+```ts
+type PartialRecord<K extends string, T> = Partial<Record<K, T>>;
+
+const foodByCategory: PartialRecord<Category, Food[]> = {
+  한식: [{ name: "제육덮밥" }, { name: "콩나물국밥" }],
+  일식: [{ name: "회", name: "텐동" }],
+};
+
+foodByCategory["양식"].map((food) => food.name); // Object is possibly `undefined`
+```
