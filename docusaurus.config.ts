@@ -18,7 +18,7 @@ const config: Config = {
   trailingSlash: false,
   i18n: {
     defaultLocale: "ko",
-    locales: ["ko"]
+    locales: ["ko"],
   },
   presets: [
     [
@@ -26,13 +26,13 @@ const config: Config = {
       {
         blog: {
           showReadingTime: true,
-          editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`
+          editUrl: `https://github.com/${organizationName}/${projectName}/tree/main/`,
         },
         theme: {
-          customCss: "./src/css/custom.css"
-        }
-      } satisfies Preset.Options
-    ]
+          customCss: "./src/css/custom.css",
+        },
+      } satisfies Preset.Options,
+    ],
   ],
 
   themeConfig: {
@@ -44,18 +44,23 @@ const config: Config = {
         {
           href: `https://github.com/${organizationName}/${projectName}/`,
           label: "GitHub",
-          position: "right"
-        }
-      ]
+          position: "right",
+        },
+      ],
     },
     footer: {
-      copyright: `Copyright © ${new Date().getFullYear()} 브이디크럭스 프론트엔드 팀`
+      copyright: `Copyright © ${new Date().getFullYear()} 브이디크럭스 프론트엔드 팀`,
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula
-    }
-  } satisfies Preset.ThemeConfig
+      darkTheme: prismThemes.dracula,
+    },
+  } satisfies Preset.ThemeConfig,
+
+  markdown: {
+    mermaid: true,
+  },
+  themes: ["@docusaurus/theme-mermaid"],
 };
 
 export default config;
