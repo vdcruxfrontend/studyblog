@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[2154],{7915:s=>{s.exports=JSON.parse('{"label":"react","permalink":"/studyblog/blog/tags/react","allTagsPath":"/studyblog/blog/tags","count":1,"unlisted":false}')}}]);

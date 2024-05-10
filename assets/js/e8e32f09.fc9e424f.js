@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrux_study=self.webpackChunkcrux_study||[]).push([[767],{7955:t=>{t.exports=JSON.parse('{"permalink":"/studyblog/blog/tags/react","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
